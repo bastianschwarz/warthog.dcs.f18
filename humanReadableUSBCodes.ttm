@@ -1,0 +1,16 @@
+/*
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42mk1):
+ * <bastian@codename-php.de> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return Bastian Schwarz.
+ *
+ * If you don't want to buy me a beer, consider buying one for Poul-Henning Kamp
+ * for creating this licence.
+ * ----------------------------------------------------------------------------
+ */
+ 
+/*
+ * This file defines the USB codes I actually use as human readable constants
+ * so the code is easier to read and change.
+ */

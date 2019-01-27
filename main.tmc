@@ -1,0 +1,84 @@
+/*
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42mk1):
+ * <bastian@codename-php.de> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return Bastian Schwarz.
+ *
+ * If you don't want to buy me a beer, consider buying one for Poul-Henning Kamp
+ * for creating this licence.
+ * ----------------------------------------------------------------------------
+ */
+ 
+/*
+ * This is the main file of the profile. Run this in your T.A.R.G.E.T. software.
+ * The profile is intended to be compatible with the Thrustmaster HOTAS Cougar
+ * and the default button mapping in DCS World 2.5 and up
+ */
+ 
+include "target.tmh" //inlcude TM default stuff
+include "humanReadableUSBCodes.ttm" //include USB mapping to make the code easier to read
+
+int main() {
+  if(Init(&EventHandle)) return 1; // declare the event handler, return on error
+	  	
+  excludeDevices();
+  initLEDs();
+  setupAxis();
+}
+
+//event handler
+int EventHandle(int type, alias o, int x) {
+  DefaultMapping(&o, x);
+}
+
+/*
+* Excludes the devices we don't want to handle. We only want to handle the warthog throttle and stick.
+*
+* Everything else should be handled by DX
+*/
+int excludeDevices() {
+  Configure(&LMFD,MODE_EXCLUDED); 
+  Configure(&RMFD,MODE_EXCLUDED);
+  Configure(&HCougar,MODE_EXCLUDED);
+  Configure(&T16000,MODE_EXCLUDED);
+  Configure(&T16000L,MODE_EXCLUDED);
+  Configure(&TFRPRudder,MODE_EXCLUDED);
+}
+
+/*
+* Initializes the LEDs by setting the backlight intensitiy to a sensible level and turning off all status LEDs so they can later be set to the desired state
+* by various actions
+*/
+int initLEDs() {
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_INTENSITY, 214)); //set Throttle backlight power to 5/6
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED0)); //set backlight OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED1)); //set LED 1 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED2)); //set LED 2 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED3)); //set LED 3 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED4)); //set LED 4 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED5)); //set LED 5 OFF
+}
+
+/*
+* Sets up the Stick and and Throttle axis.
+*
+* The stick is a basic SCurve with a small deadzone
+*
+* @param int deadzone Since the stick is very sensitve there is input by just putting the hands on the stick. A small deadzone helps with unwanted input
+* @param int curve Set a positive curve to make the axis a bit less responsive since the default values seemed a bit violent at times even at small movements
+* @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detend is at 80%
+* @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92%.
+*/
+int setupAxis(int deadzone = 3, int curve = 3, int physicalAfterburnerDetend = 80, int inGameAfterburnerDetend = 92) {
+  MapAxis(&Joystick, JOYX, DX_X_AXIS); 
+  SetSCurve(&Joystick, JOYX, 0, deadzone, 0, curve, 0);
+ 
+  MapAxis(&Joystick, JOYY, DX_Y_AXIS); 
+  SetSCurve(&Joystick, JOYY, 0, deadzone, 0, curve, 0);
+ 
+  MapAxis(&Throttle, THR_LEFT, DX_ZROT_AXIS);
+  SetJCurve(&Throttle, THR_LEFT, physicalAfterburnerDetend, inGameAfterburnerDetend); // set the curve to align the AB detend with the AB in game
+  MapAxis(&Throttle, THR_RIGHT, DX_Z_AXIS); 
+  SetJCurve(&Throttle, THR_RIGHT, physicalAfterburnerDetend, inGameAfterburnerDetend);
+}
