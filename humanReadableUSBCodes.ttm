@@ -19,6 +19,7 @@
  
  // chars
  define USB_A USB[0x04]
+ define USB_B USB[0x05]
  define USB_C USB[0x06]
  define USB_D USB[0x07]
  define USB_E USB[0x08]

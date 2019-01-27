@@ -21,6 +21,7 @@
 int initThrottle() {
   initLEDs();
   setupThrottleAxis();
+  setupSpeedbreak();
   setupChinaHat();
 }
 
@@ -39,7 +40,7 @@ int initLEDs() {
 }
 
 /*
- * Sets up the throttle axis along with the idle-off key events and LED states
+ * Sets up the throttle axis along with the idle-off key events and LED states. LEDs are off when both throttles are in off position
  *
  * @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detend is at 80%
  * @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92%.
@@ -56,6 +57,15 @@ int setupThrottleAxis(int physicalAfterburnerDetend = 80, int inGameAfterburnerD
   MapKey(&Throttle, IDLERON, CHAIN(PULSE + THROTTLE_RIGHT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
   MapKey(&Throttle, IDLELOFF, CHAIN(PULSE + THROTTLE_LEFT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
   MapKey(&Throttle, IDLEROFF, CHAIN(PULSE + THROTTLE_RIGHT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
+}
+
+/*
+ * Sets up the speedbreak and turns LED3 on when it's not in the middle position
+ */
+int setupSpeedbreak() {
+  MapKey(&Throttle, SPDB, CHAIN(SPEEDBREAK_EXTEND, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+  MapKey(&Throttle, SPDM, LED(&Throttle, LED_ONOFF ,LED_CURRENT - LED3));
+  MapKey(&Throttle, SPDF, CHAIN(SPEEDBREAK_EXTRACT, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
 }
 
 /*
