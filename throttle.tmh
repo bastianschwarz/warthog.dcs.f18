@@ -1,0 +1,67 @@
+/*
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42mk1):
+ * <bastian@codename-php.de> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return Bastian Schwarz.
+ *
+ * If you don't want to buy me a beer, consider buying one for Poul-Henning Kamp
+ * for creating this licence.
+ * ----------------------------------------------------------------------------
+ */
+ 
+/*
+ * This file contains all functions related to the throttle. The files are split so the main
+ * file doesn't get too long.
+ */
+
+/*
+ * Calls all functions needed to setup the throttle
+ */
+int initThrottle() {
+  initLEDs();
+  setupThrottleAxis();
+  setupChinaHat();
+}
+
+/*
+ * Initializes the LEDs by setting the backlight intensitiy to a sensible level and turning off all status LEDs so they can later be set to the desired state
+ * by various actions
+ */
+int initLEDs() {
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_INTENSITY, 214)); //set Throttle backlight power to 5/6
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED0)); //set backlight OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED1)); //set LED 1 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED2)); //set LED 2 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED3)); //set LED 3 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED4)); //set LED 4 OFF
+  ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED5)); //set LED 5 OFF
+}
+
+/*
+ * Sets up the throttle axis along with the idle-off key events and LED states
+ *
+ * @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detend is at 80%
+ * @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92%.
+ */
+int setupThrottleAxis(int physicalAfterburnerDetend = 80, int inGameAfterburnerDetend = 92) {
+  // curve
+  MapAxis(&Throttle, THR_LEFT, DX_ZROT_AXIS);
+  SetJCurve(&Throttle, THR_LEFT, physicalAfterburnerDetend, inGameAfterburnerDetend); // set the curve to align the AB detend with the AB in game
+  MapAxis(&Throttle, THR_RIGHT, DX_Z_AXIS); 
+  SetJCurve(&Throttle, THR_RIGHT, physicalAfterburnerDetend, inGameAfterburnerDetend);
+  
+  // Idle states
+  MapKey(&Throttle, IDLELON, CHAIN(PULSE + THROTTLE_LEFT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
+  MapKey(&Throttle, IDLERON, CHAIN(PULSE + THROTTLE_RIGHT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
+  MapKey(&Throttle, IDLELOFF, CHAIN(PULSE + THROTTLE_LEFT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
+  MapKey(&Throttle, IDLEROFF, CHAIN(PULSE + THROTTLE_RIGHT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
+}
+
+/*
+ * Sets up the china hat (the red 2 direction switch at the side of the throttle) for countermeasures(ALE-47)
+ */
+int setupChinaHat() {
+  MapKey(&Throttle, CHF, DISPENSE_SWITCH_FORWARD_CHAFF);
+  MapKey(&Throttle, CHB, DISPENSE_SWITCH_AFT_FLARE);
+}
