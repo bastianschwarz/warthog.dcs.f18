@@ -20,10 +20,15 @@
  */
 int initThrottle() {
   initLEDs();
+  
+  // throttle levers
   setupThrottleAxis();
   setupFlaps();
   setupSpeedbreake();
   setupChinaHat();
+  
+  // panel
+  setupEAC();
 }
 
 /*
@@ -85,4 +90,12 @@ int setupSpeedbreake() {
 int setupChinaHat() {
   MapKey(&Throttle, CHF, DISPENSE_SWITCH_FORWARD_CHAFF);
   MapKey(&Throttle, CHB, DISPENSE_SWITCH_AFT_FLARE);
+}
+
+/*
+ * Sets up the EAC switch on the instrument panel as gear lever. LED2 is on when the gear is down (down or OFF position)
+ */
+int setupEAC() {
+  MapKey(&Throttle, EACON, CHAIN(PULSE + GEAR_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED2)));
+  MapKey(&Throttle, EACOFF, CHAIN(PULSE + GEAR_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED2)));
 }
