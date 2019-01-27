@@ -9,14 +9,14 @@ This profile was inspired by the great [F-18 Profile][noid_f18_profile_url] crea
   regularly and it's not a good thing when you have to remember your key mapping in combat. This problem is 
   aggravated when there are a lot of multi-assignments with modifiers.
   
-  This profile aims to reduce the use of modifiers especially on the stick and throttle. There will be some but they will be mostly on the
-  throttle instrument panel.
+  This profile aims to reduce the use of modifiers especially on the stick and throttle. There will be some but they will be mostly 
+  on the throttle instrument panel.
 
 - __Minimal configuration__: The profile is designed to work with the default button mapping of DCS where possible. This should reduce the
   need for initial configuration and when new modules are realeased.
   
-- __Relation to real life__: The US Air Force has put a lot of time and thought in designing their HOTAS and "Button Mapping" so I will
-  definiatley try and take adavantage of that.
+- __Relation to real life__: The US Air Force and the US Navy have put a lot of time and thought in designing their 
+  HOTAS and "Button Mapping" so I will definiatley try and take adavantage of that.
   
 - __F-16__: I started out years ago in Falcon 4 and spent a lot of time in the (virtual) F-16 cockpit so the control scheme is somhow
   still pretty much ingrained into my flying. And since the F-16 teaser Eagle Dynamics put in their awsome 
