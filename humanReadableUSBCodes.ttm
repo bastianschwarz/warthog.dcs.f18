@@ -23,6 +23,7 @@
  define USB_C USB[0x06]
  define USB_D USB[0x07]
  define USB_E USB[0x08]
+ define USB_F USB[0x09]
  define USB_S USB[0x16]
  define USB_W USB[0x1A]
  define USB_X USB[0x1B]

@@ -21,7 +21,8 @@
 int initThrottle() {
   initLEDs();
   setupThrottleAxis();
-  setupSpeedbreak();
+  setupFlaps();
+  setupSpeedbreake();
   setupChinaHat();
 }
 
@@ -60,12 +61,22 @@ int setupThrottleAxis(int physicalAfterburnerDetend = 80, int inGameAfterburnerD
 }
 
 /*
- * Sets up the speedbreak and turns LED3 on when it's not in the middle position
+ * Sets up the flap switch and the LED3 state. The LED is on when the flaps are not in AUTO position. The LED
+ * is also shared with the speedbreake
  */
-int setupSpeedbreak() {
-  MapKey(&Throttle, SPDB, CHAIN(SPEEDBREAK_EXTEND, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+int setupFlaps() {
+  MapKey(&Throttle, FLAPU, CHAIN(PULSE + FLAPS_AUTO, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED3)));
+  MapKey(&Throttle, FLAPM, CHAIN(PULSE + FLAPS_HALF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+  MapKey(&Throttle, FLAPD, CHAIN(PULSE + FLAPS_FULL, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+}
+
+/*
+ * Sets up the speedbreak and turns LED3 on when it's not in the middle position. The LED is also shared with the flaps.
+ */
+int setupSpeedbreake() {
+  MapKey(&Throttle, SPDB, CHAIN(SPEEDBREAKE_EXTEND, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
   MapKey(&Throttle, SPDM, LED(&Throttle, LED_ONOFF ,LED_CURRENT - LED3));
-  MapKey(&Throttle, SPDF, CHAIN(SPEEDBREAK_EXTRACT, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+  MapKey(&Throttle, SPDF, CHAIN(SPEEDBREAKE_EXTRACT, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
 }
 
 /*
