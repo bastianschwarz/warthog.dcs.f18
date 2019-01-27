@@ -29,6 +29,7 @@ int initThrottle() {
   
   // panel
   setupEAC();
+  setupRDRALTIM();
 }
 
 /*
@@ -98,4 +99,12 @@ int setupChinaHat() {
 int setupEAC() {
   MapKey(&Throttle, EACON, CHAIN(PULSE + GEAR_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED2)));
   MapKey(&Throttle, EACOFF, CHAIN(PULSE + GEAR_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED2)));
+}
+
+/*
+ * Sets up the RDR ALTIM switch on the instrument panel as hook lever. LED4 is on when the hook is down (down or DIS position)
+ */
+int setupRDRALTIM() {
+  MapKey(&Throttle, RDRNRM, CHAIN(PULSE + HOOK_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED4)));
+  MapKey(&Throttle, RDRDIS, CHAIN(PULSE + HOOK_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED4)));
 }
