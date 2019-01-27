@@ -1,7 +1,7 @@
 # HOTAS Warthog profile for DCS F/A-18C Hornet
 T.A.R.G.E.T. profile for the Thrustmaster HOTAS Warthog and DCS World FA-18C Hornet
 
-This profile was inspired by the great [F-18 Profile][noid_f18_profile_url] created by [NOiD][noid_profile_url]. You should check out this profile if like having more functions bound to your HOTAS using modifier buttons.
+This profile was inspired by the great [F-18 Profile][noid_f18_profile_url] created by [NOiD][noid_profile_url]. You should check out this profile if you like having more functions bound to your HOTAS using modifier buttons.
 
 ## Goals
 
