@@ -18,6 +18,7 @@
  
 include "target.tmh" //inlcude TM default stuff
 include "humanReadableUSBCodes.ttm" //include USB mapping to make the code easier to read
+include "usbToDcsF18.ttm" // include usb to dcs actions mapping to make the code EVEN EASIER to read
 
 int main() {
   if(Init(&EventHandle)) return 1; // declare the event handler, return on error
@@ -25,6 +26,19 @@ int main() {
   excludeDevices();
   initLEDs();
   setupAxis();
+  
+  //stick
+  setupTrigger();
+  setupMSLStep();
+  setupWeaponRelease();
+  setupPinky();
+  setupPaddle();
+  setupTrimHat();
+  setupTMS();
+  setupDMS();
+  
+  //throttle
+  setupChinaHat();
 }
 
 //event handler
@@ -33,10 +47,10 @@ int EventHandle(int type, alias o, int x) {
 }
 
 /*
-* Excludes the devices we don't want to handle. We only want to handle the warthog throttle and stick.
-*
-* Everything else should be handled by DX
-*/
+ * Excludes the devices we don't want to handle. We only want to handle the warthog throttle and stick.
+ *
+ * Everything else should be handled by DX
+ */
 int excludeDevices() {
   Configure(&LMFD,MODE_EXCLUDED); 
   Configure(&RMFD,MODE_EXCLUDED);
@@ -47,9 +61,9 @@ int excludeDevices() {
 }
 
 /*
-* Initializes the LEDs by setting the backlight intensitiy to a sensible level and turning off all status LEDs so they can later be set to the desired state
-* by various actions
-*/
+ * Initializes the LEDs by setting the backlight intensitiy to a sensible level and turning off all status LEDs so they can later be set to the desired state
+ * by various actions
+ */
 int initLEDs() {
   ActKey(PULSE+KEYON+LED(&Throttle, LED_INTENSITY, 214)); //set Throttle backlight power to 5/6
   ActKey(PULSE+KEYON+LED(&Throttle, LED_ONOFF, LED_CURRENT-LED0)); //set backlight OFF
@@ -61,15 +75,15 @@ int initLEDs() {
 }
 
 /*
-* Sets up the Stick and and Throttle axis.
-*
-* The stick is a basic SCurve with a small deadzone
-*
-* @param int deadzone Since the stick is very sensitve there is input by just putting the hands on the stick. A small deadzone helps with unwanted input
-* @param int curve Set a positive curve to make the axis a bit less responsive since the default values seemed a bit violent at times even at small movements
-* @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detend is at 80%
-* @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92%.
-*/
+ * Sets up the Stick and and Throttle axis.
+ *
+ * The stick is a basic SCurve with a small deadzone
+ *
+ * @param int deadzone Since the stick is very sensitve there is input by just putting the hands on the stick. A small deadzone helps with unwanted input
+ * @param int curve Set a positive curve to make the axis a bit less responsive since the default values seemed a bit violent at times even at small movements
+ * @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detend is at 80%
+ * @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92%.
+ */
 int setupAxis(int deadzone = 3, int curve = 3, int physicalAfterburnerDetend = 80, int inGameAfterburnerDetend = 92) {
   MapAxis(&Joystick, JOYX, DX_X_AXIS); 
   SetSCurve(&Joystick, JOYX, 0, deadzone, 0, curve, 0);
@@ -81,4 +95,84 @@ int setupAxis(int deadzone = 3, int curve = 3, int physicalAfterburnerDetend = 8
   SetJCurve(&Throttle, THR_LEFT, physicalAfterburnerDetend, inGameAfterburnerDetend); // set the curve to align the AB detend with the AB in game
   MapAxis(&Throttle, THR_RIGHT, DX_Z_AXIS); 
   SetJCurve(&Throttle, THR_RIGHT, physicalAfterburnerDetend, inGameAfterburnerDetend);
+}
+
+/*
+ * Sets up the trigger (the big red one at the front) with all related actions and states
+ */
+int setupTrigger() {
+  MapKey(&Joystick, TG2, GUN_TRIGGER);
+}
+
+/*
+ * Sets up what would be the MSL Step button (right side of the Stick) on the F16
+ *
+ * Acts as CAGE-UNCAGE here
+ */
+int setupMSLStep() {
+  MapKey(&Joystick, S1, CAGE_UNCAGE);
+}
+
+/*
+ * Sets up the wepaons release (the small red one on the top) with all related actions and states
+ */
+int setupWeaponRelease() {
+  MapKey(&Joystick, S2, WEAPON_RELEASE);
+}
+
+/*
+ * Sets up the pinky button (base of the stick) to  Undesignate - Nose Wheel Steer Switch
+ */
+int setupPinky() {
+  MapKey(&Joystick, S3, UNDESIGNATE_NWS);
+}
+
+/*
+ * Sets up the paddle as Autopilot - Nosewheel Steering Disengage
+ */
+int setupPaddle() {
+  MapKey(&Joystick, S4, AUTOPILOT_NWS_DISENGAGE);
+}
+
+/*
+ * Sets up the trim hat (the big white-ish one on the top) for trimming the aircraft
+ */
+int setupTrimHat() {
+  MapKey(&Joystick, H1U, TRIM_PUSH_DESCEND);
+  MapKey(&Joystick, H1D, TRIM_PULL_CLIMB);
+  MapKey(&Joystick, H1L, TRIM_LEFT_WING_DOWN);
+  MapKey(&Joystick, H1R, TRIM_RIGHT_WING_DOWN);
+}
+
+/*
+ * Sets up what would be the target management switch in the F16 that acts as AA Weapon selector here.
+ *
+ * In the F18 the weapons selector is at the side of the stick (where the F16 CMS is) but since the Warthog
+ * also has this as a button and we only have 4 AA weapons to choose a button would be wasted
+ */
+int setupTMS() {
+  MapKey(&Joystick, H2U, AA_SELECT_ARMAAM);
+  MapKey(&Joystick, H2D, AA_SELECT_GUN);
+  MapKey(&Joystick, H2L, AA_SELECT_SIDEWINDER);
+  MapKey(&Joystick, H2R, AA_SELECT_SPARROW);
+}
+
+/*
+ * Sets up the display managment switch (the black flat one below the trim hat), acts as sensor control switch in the F18
+ *
+ * This manages the active display where the TDC slew works and also controls the ACM modes
+ */
+int setupDMS() {
+  MapKey(&Joystick, H3U, SCS_FWD);
+  MapKey(&Joystick, H3D, SCS_AFT);
+  MapKey(&Joystick, H3L, SCS_LEFT);
+  MapKey(&Joystick, H3R, SCS_RIGHT);
+}
+
+/*
+ * Sets up the china hat (the red 2 direction switch at the side of the throttle) for countermeasures(ALE-47)
+ */
+int setupChinaHat() {
+  MapKey(&Throttle, CHF, DISPENSE_SWITCH_FORWARD_CHAFF);
+  MapKey(&Throttle, CHB, DISPENSE_SWITCH_AFT_FLARE);
 }

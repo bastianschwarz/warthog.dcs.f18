@@ -1,0 +1,43 @@
+/*
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42mk1):
+ * <bastian@codename-php.de> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return Bastian Schwarz.
+ *
+ * If you don't want to buy me a beer, consider buying one for Poul-Henning Kamp
+ * for creating this licence.
+ * ----------------------------------------------------------------------------
+ */
+ 
+/*
+ * This macro translates the human readable usb macro to DCS actions, e.g. USB_SPACE to GUN_TRIGGER
+ */
+ 
+define GUN_TRIGGER    USB_SPACE
+define WEAPON_RELEASE R_ALT + USB_SPACE
+define CAGE_UNCAGE USB_C
+define UNDESIGNATE_NWS USB_S
+define AUTOPILOT_NWS_DISENGAGE USB_A
+
+// flight controls
+define TRIM_PULL_CLIMB      R_CTL + USB_DOT_GREATER_THAN
+define TRIM_PUSH_DESCEND    R_CTL + USB_COLON_SEMICOLON
+define TRIM_LEFT_WING_DOWN  R_CTL + USB_COMMA_LESS_THAN
+define TRIM_RIGHT_WING_DOWN R_CTL + USB_SLASH_QUESTIONMARK
+
+// countermeasures
+define DISPENSE_SWITCH_AFT_FLARE     USB_D
+define DISPENSE_SWITCH_FORWARD_CHAFF USB_E
+
+// sensor control switch
+define SCS_AFT   R_ALT + USB_DOT_GREATER_THAN
+define SCS_FWD   R_ALT + USB_COLON_SEMICOLON
+define SCS_LEFT  R_ALT + USB_COMMA_LESS_THAN
+define SCS_RIGHT R_ALT + USB_SLASH_QUESTIONMARK
+
+// AA Weapon Select
+define AA_SELECT_ARMAAM     L_SHIFT + USB_D
+define AA_SELECT_GUN        L_SHIFT + USB_X
+define AA_SELECT_SIDEWINDER L_SHIFT + USB_S
+define AA_SELECT_SPARROW    L_SHIFT + USB_W
