@@ -32,6 +32,7 @@ int initThrottle() {
   setupRDRALTIM();
   setupAutopilot();
   setupLGWarn();
+  setupAPU();
 }
 
 /*
@@ -131,4 +132,8 @@ int setupAutopilot() {
  */
 int setupLGWarn() {
   MapKey(&Throttle, LDGH, FCS_RESET);
+}
+
+int setupAPU() {
+  MapKey(&Throttle, APUON, APU);
 }

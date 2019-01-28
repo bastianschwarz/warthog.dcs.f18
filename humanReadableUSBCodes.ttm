@@ -26,6 +26,7 @@
  define USB_F USB[0x09]
  define USB_G USB[0x0A]
  define USB_H USB[0x0B]
+ define USB_J USB[0x0D]
  define USB_N USB[0x11]
  define USB_P USB[0x13]
  define USB_Q USB[0x14]

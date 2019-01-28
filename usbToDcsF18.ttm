@@ -20,6 +20,7 @@ define CAGE_UNCAGE USB_C
 define UNDESIGNATE_NWS USB_S
 define AUTOPILOT_NWS_DISENGAGE USB_A
 define MASTER_CAUTION USB_N
+define APU DX20 // custom bind to special joystick button
 
 // flight controls
 define FCS_RESET            USB_P // custom bind
