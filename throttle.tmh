@@ -31,6 +31,7 @@ int initThrottle() {
   setupEAC();
   setupRDRALTIM();
   setupAutopilot();
+  setupLGWarn();
 }
 
 /*
@@ -123,4 +124,11 @@ int setupAutopilot() {
   MapKey(&Throttle, APPAT, PULSE + DISPENSER_SWITCH_BYPASS);
   MapKey(&Throttle, APAH, PULSE + DISPENSER_SWITCH_ON);
   MapKey(&Throttle, APALT, PULSE +DISPENSER_SWITCH_OFF);
+}
+
+/*
+ * Sets up the landing gear warning as FCS RESET button
+ */
+int setupLGWarn() {
+  MapKey(&Throttle, LDGH, FCS_RESET);
 }
