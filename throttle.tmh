@@ -30,6 +30,7 @@ int initThrottle() {
   // panel
   setupEAC();
   setupRDRALTIM();
+  setupAutopilot();
 }
 
 /*
@@ -107,4 +108,19 @@ int setupEAC() {
 int setupRDRALTIM() {
   MapKey(&Throttle, RDRNRM, CHAIN(PULSE + HOOK_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED4)));
   MapKey(&Throttle, RDRDIS, CHAIN(PULSE + HOOK_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED4)));
+}
+
+/*
+ * Sets up the Autopilot switch (bottom right on the throttle). The switch controls the countermeaser dispenser switch:
+ * - Up (PATH): Bypass
+ * - Middle (ALT HDG): On
+ * - Down (ALT): Off
+ *
+ * The engage-disengage button is the master caution reset
+ */
+int setupAutopilot() {
+  MapKey(&Throttle, APENG, MASTER_CAUTION);
+  MapKey(&Throttle, APPAT, PULSE + DISPENSER_SWITCH_BYPASS);
+  MapKey(&Throttle, APAH, PULSE + DISPENSER_SWITCH_ON);
+  MapKey(&Throttle, APALT, PULSE +DISPENSER_SWITCH_OFF);
 }

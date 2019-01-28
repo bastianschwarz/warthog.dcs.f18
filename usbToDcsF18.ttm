@@ -19,6 +19,7 @@ define WEAPON_RELEASE R_ALT + USB_SPACE
 define CAGE_UNCAGE USB_C
 define UNDESIGNATE_NWS USB_S
 define AUTOPILOT_NWS_DISENGAGE USB_A
+define MASTER_CAUTION USB_N
 
 // flight controls
 define TRIM_PULL_CLIMB      R_CTL + USB_DOT_GREATER_THAN
@@ -42,6 +43,9 @@ define HOOK_DOWN L_ALT + USB_H // custom bind
 // countermeasures
 define DISPENSE_SWITCH_AFT_FLARE     USB_D
 define DISPENSE_SWITCH_FORWARD_CHAFF USB_E
+define DISPENSER_SWITCH_BYPASS       USB_Q         // custom bind 
+define DISPENSER_SWITCH_OFF          L_CTL + USB_Q // custom bind
+define DISPENSER_SWITCH_ON           L_ALT + USB_Q // custom bind
 
 // sensor control switch
 define SCS_AFT   R_ALT + USB_DOT_GREATER_THAN
