@@ -20,7 +20,10 @@ define CAGE_UNCAGE USB_C
 define UNDESIGNATE_NWS USB_S
 define AUTOPILOT_NWS_DISENGAGE USB_A
 define MASTER_CAUTION USB_N
-define APU DX20 // custom bind to special joystick button
+define CANOPY_OPEN_CLOSE L_CTL + USB_C
+
+define BATTERY_ON  L_ALT + USB_4
+define BATTERY_OFF USB_4
 
 // flight controls
 define FCS_RESET            USB_P // custom bind
@@ -42,6 +45,9 @@ define GEAR_DOWN L_SHIFT + USB_G
 
 define HOOK_UP L_CTL + USB_H // custom bind
 define HOOK_DOWN L_ALT + USB_H // custom bind
+
+define ENGINE_CRANK_LEFT  USB_3 // custom bind
+define ENGINE_CRANK_RIGHT L_ALT + USB_3 // custom bind
 
 // countermeasures
 define DISPENSE_SWITCH_AFT_FLARE     USB_D
@@ -67,3 +73,7 @@ define THROTTLE_LEFT_IDLE  R_ALT + USB_HOME
 define THROTTLE_LEFT_OFF   R_ALT + USB_END
 define THROTTLE_RIGHT_IDLE R_SHIFT + USB_HOME
 define THROTTLE_RIGHT_OFF  R_SHIFT + USB_END
+
+//DX
+
+define APU DX20 // custom bind - special joystick action

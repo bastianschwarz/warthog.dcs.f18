@@ -33,6 +33,7 @@ int initThrottle() {
   setupAutopilot();
   setupLGWarn();
   setupAPU();
+  setupEngine();
 }
 
 /*
@@ -134,6 +135,24 @@ int setupLGWarn() {
   MapKey(&Throttle, LDGH, FCS_RESET);
 }
 
+/* 
+ * Sets up the APU switch. The APU is bound to a DX button since DCS has a special action for this
+ */
 int setupAPU() {
   MapKey(&Throttle, APUON, APU);
+}
+
+/*
+ * Sets up the engine operate switches. Putting them into the norm position switches on the battery (either of them), the
+ * ignition position is the engine crank.
+ */
+int setupEngine() {
+  MapKey(&Throttle, EORNORM, PULSE + BATTERY_ON);
+  MapKey(&Throttle, EOLNORM, PULSE + BATTERY_ON);
+  
+  MapKey(&Throttle, EORMOTOR, PULSE + BATTERY_OFF);
+  MapKey(&Throttle, EOLMOTOR, PULSE + BATTERY_OFF);
+  
+  MapKey(&Throttle, EORIGN, ENGINE_CRANK_RIGHT);
+  MapKey(&Throttle, EOLIGN, ENGINE_CRANK_LEFT);
 }
