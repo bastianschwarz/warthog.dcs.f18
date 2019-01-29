@@ -24,6 +24,8 @@ int initThrottle() {
   // throttle levers
   setupThrottleAxis();
   setupFlaps();
+  setupATC();
+  setupSlew();
   setupSpeedbreake();
   setupChinaHat();
   
@@ -34,6 +36,8 @@ int initThrottle() {
   setupLGWarn();
   setupAPU();
   setupEngine();
+  
+
 }
 
 /*
@@ -80,6 +84,27 @@ int setupFlaps() {
   MapKey(&Throttle, FLAPD, CHAIN(PULSE + FLAPS_FULL, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
 }
 
+/*
+ * Sets up the ATC Button (the red one on the throttle) for automatic throttle controll
+ */
+int setupATC() {
+  MapKey(&Throttle, LTB, PULSE + ATC);
+}
+
+/*
+ * Sets up the slew (microstick) as the TDC with the click as depress
+ *
+ * @param int deadzone Set a rather large deadzone since the stick is very sensitive
+ * @param int curve Trim the curve so its slower in the center
+ * @param int scale Scale the curve so the max values are lower since it's almost uncontrollable in high values
+ */
+int setupSlew(int deadzone = 20, int curve = 3, int scale = -3) {
+  MapAxis(&Throttle, SCX, DX_XROT_AXIS, AXIS_NORMAL, MAP_ABSOLUTE);
+  SetSCurve(&Throttle, SCX, 0, 0, deadzone, curve, scale);
+  MapAxis(&Throttle, SCY, DX_YROT_AXIS, AXIS_REVERSED, MAP_ABSOLUTE);
+  SetSCurve(&Throttle, SCY, 0, 0, deadzone, curve, scale);
+  MapKey(&Throttle, SC, TDC_DEPRESS);
+}
 /*
  * Sets up the speedbreak and turns LED3 on when it's not in the middle position. The LED is also shared with the flaps.
  */

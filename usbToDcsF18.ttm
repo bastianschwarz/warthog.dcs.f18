@@ -25,6 +25,8 @@ define CANOPY_OPEN_CLOSE L_CTL + USB_C
 define BATTERY_ON  L_ALT + USB_4
 define BATTERY_OFF USB_4
 
+define ATC USB_T
+
 // flight controls
 define FCS_RESET            USB_P // custom bind
 
@@ -67,6 +69,9 @@ define AA_SELECT_ARMAAM     L_SHIFT + USB_D
 define AA_SELECT_GUN        L_SHIFT + USB_X
 define AA_SELECT_SIDEWINDER L_SHIFT + USB_S
 define AA_SELECT_SPARROW    L_SHIFT + USB_W
+
+// radar controls
+define TDC_DEPRESS USB_ENTER
 
 // Throttle Idle/Off
 define THROTTLE_LEFT_IDLE  R_ALT + USB_HOME

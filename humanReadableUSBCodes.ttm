@@ -31,12 +31,14 @@
  define USB_P USB[0x13]
  define USB_Q USB[0x14]
  define USB_S USB[0x16]
+ define USB_T USB[0x17]
  define USB_W USB[0x1A]
  define USB_X USB[0x1B]
  
  define USB_3 USB[0x20]
  define USB_4 USB[0x21]
  
+ define USB_ENTER USB[0x28]
  define USB_SPACE USB[0x2C]
  define USB_COLON_SEMICOLON USB[0x33]
  define USB_COMMA_LESS_THAN USB[0x36]
