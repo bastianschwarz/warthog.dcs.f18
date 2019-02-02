@@ -57,15 +57,15 @@ int initLEDs() {
 /*
  * Sets up the throttle axis along with the idle-off key events and LED states. LEDs are off when both throttles are in off position
  *
- * @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detend is at 80%
- * @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92%.
+ * @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detent is at 80% - push trhough detent is at 75
+ * @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92% with default - 85 with push trough.
  */
-int setupThrottleAxis(int physicalAfterburnerDetend = 80, int inGameAfterburnerDetend = 92) {
+int setupThrottleAxis(int physicalAfterburnerDetent = 75, int inGameAfterburnerDetent = 85) {
   // curve
   MapAxis(&Throttle, THR_LEFT, DX_ZROT_AXIS);
-  SetJCurve(&Throttle, THR_LEFT, physicalAfterburnerDetend, inGameAfterburnerDetend); // set the curve to align the AB detend with the AB in game
+  SetJCurve(&Throttle, THR_LEFT, physicalAfterburnerDetent, inGameAfterburnerDetent); // set the curve to align the AB detend with the AB in game
   MapAxis(&Throttle, THR_RIGHT, DX_Z_AXIS); 
-  SetJCurve(&Throttle, THR_RIGHT, physicalAfterburnerDetend, inGameAfterburnerDetend);
+  SetJCurve(&Throttle, THR_RIGHT, physicalAfterburnerDetent, inGameAfterburnerDetent);
   
   // Idle states
   MapKey(&Throttle, IDLELON, CHAIN(PULSE + THROTTLE_LEFT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
