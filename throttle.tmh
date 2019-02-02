@@ -36,8 +36,7 @@ int initThrottle() {
   setupLGWarn();
   setupAPU();
   setupEngine();
-  
-
+  setupFrictionLever();
 }
 
 /*
@@ -165,6 +164,14 @@ int setupLGWarn() {
  */
 int setupAPU() {
   MapKey(&Throttle, APUON, APU);
+}
+
+/**
+ * Maps the friction lever to the DX slider as axis and sets an S cruve with a negative scale since the lever is way too sensitive otherwise
+ */
+int setupFrictionLever() {
+  MapAxis(&Throttle, THR_FC, DX_SLIDER_AXIS);
+  SetSCurve(&Throttle, THR_FC, 0, 10, 0, 0, -2);
 }
 
 /*
