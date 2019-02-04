@@ -84,6 +84,10 @@ define THROTTLE_RIGHT_OFF  R_SHIFT + USB_END
 define EXTERIOR_LIGHTS_ON_OFF USB_L
 define EXTERIOR_LIGHTS_ON     L_SHIFT + USB_L // custom bind
 define EXTERIOR_LIGHTS_OFF    L_CTL + USB_L // custom bind
-//DX
 
+// master modes
+define MASTER_ARM_ARM  L_SHIFT + USB_M
+define MASTER_ARM_SAFE L_CTL + USB_M
+
+// DX
 define APU DX20 // custom bind - special joystick action

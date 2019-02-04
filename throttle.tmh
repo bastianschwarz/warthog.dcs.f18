@@ -38,6 +38,7 @@ int initThrottle() {
   setupFrictionLever();
   setupEngine();
   setupFuelFlowLeft();
+  setupFuelFlowRight();
 }
 
 /*
@@ -198,4 +199,14 @@ int setupEngine() {
 int setupFuelFlowLeft() {
   MapKey(&Throttle, EFLNORM, CHAIN(PULSE + EXTERIOR_LIGHTS_ON, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED5)));
   MapKey(&Throttle, EFLOVER, CHAIN(PULSE + EXTERIOR_LIGHTS_OFF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED5)));
+}
+
+/*
+ * Sets up the right enginge fuel flow switch as master arm coupled with the 1st LED.
+ * - Up (Norm): Arm (LED1 Off)
+ * - Down (OVRRD): Safe (LED5 On)
+ */
+int setupFuelFlowRight() {
+  MapKey(&Throttle, EFRNORM, CHAIN(PULSE + MASTER_ARM_ARM, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED1)));
+  MapKey(&Throttle, EFROVER, CHAIN(PULSE + MASTER_ARM_SAFE, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED1)));
 }
