@@ -5,7 +5,7 @@ This profile was inspired by the great [F-18 Profile][noid_f18_profile_url] crea
 
 ## Goals
 
-- __Reduce cognitive load__: Remembering stuff is hard, especially if you don't have time play a lot and/or 
+- __Reduce cognitive load__: Remembering stuff is hard, especially if you don't have time to play a lot and/or 
   regularly and it's not a good thing when you have to remember your key mapping in combat. This problem is 
   aggravated when there are a lot of multi-assignments with modifiers.
   
