@@ -35,8 +35,9 @@ int initThrottle() {
   setupAutopilot();
   setupLGWarn();
   setupAPU();
-  setupEngine();
   setupFrictionLever();
+  setupEngine();
+  setupFuelFlowLeft();
 }
 
 /*
@@ -109,7 +110,7 @@ int setupSlew(int deadzone = 20, int curve = 3, int scale = -3) {
  */
 int setupSpeedbreake() {
   MapKey(&Throttle, SPDB, CHAIN(SPEEDBREAKE_EXTEND, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
-  MapKey(&Throttle, SPDM, LED(&Throttle, LED_ONOFF ,LED_CURRENT - LED3));
+  MapKey(&Throttle, SPDM, CHAIN(PULSE + SPEEDBREAKE_OFF, LED(&Throttle, LED_ONOFF ,LED_CURRENT - LED3)));
   MapKey(&Throttle, SPDF, CHAIN(SPEEDBREAKE_EXTRACT, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
 }
 
@@ -187,4 +188,14 @@ int setupEngine() {
   
   MapKey(&Throttle, EORIGN, ENGINE_CRANK_RIGHT);
   MapKey(&Throttle, EOLIGN, ENGINE_CRANK_LEFT);
+}
+
+/*
+ * Sets up the left enginge fuel flow switch as exterior lights switch coupled with the 5th LED.
+ * - Up (Norm): On (LED5 On)
+ * - Down (OVRRD): Off (LED5 Off)
+ */
+int setupFuelFlowLeft() {
+  MapKey(&Throttle, EFLNORM, CHAIN(PULSE + EXTERIOR_LIGHTS_ON, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED5)));
+  MapKey(&Throttle, EFLOVER, CHAIN(PULSE + EXTERIOR_LIGHTS_OFF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED5)));
 }

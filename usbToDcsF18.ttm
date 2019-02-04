@@ -41,6 +41,7 @@ define FLAPS_FULL L_CTL + USB_F
 
 define SPEEDBREAKE_EXTEND  L_SHIFT + USB_B
 define SPEEDBREAKE_EXTRACT L_CTL + USB_B
+define SPEEDBREAKE_OFF     USB_B
 
 define GEAR_UP   L_CTL + USB_G
 define GEAR_DOWN L_SHIFT + USB_G
@@ -79,6 +80,10 @@ define THROTTLE_LEFT_OFF   R_ALT + USB_END
 define THROTTLE_RIGHT_IDLE R_SHIFT + USB_HOME
 define THROTTLE_RIGHT_OFF  R_SHIFT + USB_END
 
+// lights
+define EXTERIOR_LIGHTS_ON_OFF USB_L
+define EXTERIOR_LIGHTS_ON     L_SHIFT + USB_L // custom bind
+define EXTERIOR_LIGHTS_OFF    L_CTL + USB_L // custom bind
 //DX
 
 define APU DX20 // custom bind - special joystick action
