@@ -25,6 +25,23 @@ This profile was inspired by the great [F-18 Profile][noid_f18_profile_url] crea
 - __Flexibility__: The plan is to make the profile interchangeable with other modules, either as is or by including different macro
   definitions so the scheme can stay the same between different planes.
   
+## Curent State
+__Work in Progess__
+
+TODOs (order reflects the priority but is not set in stone):
+- [Fix Bugs][issues_bugs]
+- Map Remaining Buttons:
+  - CMS (Stick)
+  - Pinky (Throttle)
+  - Boat (Throttle)
+  - Coolie (Throttle)
+  - MIC (Throttle)
+- Add button mapping files from DCS
+- Add mapping description (text)
+- Add install instructions with screenshots
+- Add mapping description (image)
+- [Issues: Enhancements][issues_enhancements]
+
 ## Usage
 
 Download the package from the releases, extract to a folder (I put mine in `..\Saved Games\DCS\Layouts\[plane]\`) and run it with T.A.R.G.E.T
@@ -34,3 +51,5 @@ As soon as the profile runs you can run DCS. Make sure the button mapping for th
 [noid_f18_profile_url]: https://www.digitalcombatsimulator.com/en/files/3300626/
 [noid_profile_url]: https://www.digitalcombatsimulator.com/en/files/?CREATED_BY=NOiD&set_filter=Y
 [dcs_2018_youtube_url]: https://www.youtube.com/watch?v=RlmUWO2JL6I
+[issues_enhancements]: https://github.com/bastianschwarz/warthog.dcs.f18/labels/enhancement
+[issues_bugs]: https://github.com/bastianschwarz/warthog.dcs.f18/labels/bug
