@@ -46,8 +46,8 @@ define SPEEDBREAKE_OFF     USB_B
 define GEAR_UP   L_CTL + USB_G
 define GEAR_DOWN L_SHIFT + USB_G
 
-define HOOK_UP L_CTL + USB_H // custom bind
-define HOOK_DOWN L_ALT + USB_H // custom bind
+define HOOK_UP L_SHIFT + USB_H // custom bind
+define HOOK_DOWN L_CTL + USB_H // custom bind
 
 define ENGINE_CRANK_LEFT  USB_3 // custom bind
 define ENGINE_CRANK_RIGHT L_ALT + USB_3 // custom bind
