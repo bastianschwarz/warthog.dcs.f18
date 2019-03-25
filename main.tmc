@@ -17,17 +17,17 @@
  */
  
 include "target.tmh" //inlcude TM default stuff
-include "humanReadableUSBCodes.ttm" //include USB mapping to make the code easier to read
-include "usbToDcsF18.ttm" // include usb to dcs actions mapping to make the code EVEN EASIER to read
-include "stick.tmh"
+include "mappings/dcs/dx.ttm" // maps DCS commands to DX codes
 include "throttle.tmh"
 
-int main() {
-  if(Init(&EventHandle)) return 1; // declare the event handler, return on error
-	  	
-  excludeDevices();
-    
-  initStick();
+stGameCfg morebuttons = { 100, 1,  1,  1,  1,  1,  1,  1,    1,   1,   0,   0,   0};
+
+int main() { 
+  configureDevices();
+  
+  if(Init(&EventHandle, 0)) return 1; // declare the event handler, return on error
+  PlugGame(&morebuttons, "Virtual Warthog for DCS");
+  
   initThrottle();
 }
 
@@ -37,15 +37,17 @@ int EventHandle(int type, alias o, int x) {
 }
 
 /*
- * Excludes the devices we don't want to handle. We only want to handle the warthog throttle and stick.
- *
- * Everything else should be handled by DX
+ * We want to handle most things directly with directX and we are only interested in Warthog stick and throttle
+ * 
+ * I tried to add the throttle as "filtered" but DCS did not recognize any axis or button inputs, so I guess i will map the throttle to
+ * the virtual device
  */
-int excludeDevices() {
+int configureDevices() {
   Configure(&LMFD,MODE_EXCLUDED); 
   Configure(&RMFD,MODE_EXCLUDED);
   Configure(&HCougar,MODE_EXCLUDED);
   Configure(&T16000,MODE_EXCLUDED);
   Configure(&T16000L,MODE_EXCLUDED);
   Configure(&TFRPRudder,MODE_EXCLUDED);
+  Configure(&Joystick,MODE_EXCLUDED);
 }

@@ -1,0 +1,70 @@
+/*
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42mk1):
+ * <bastian@codename-php.de> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return Bastian Schwarz.
+ *
+ * If you don't want to buy me a beer, consider buying one for Poul-Henning Kamp
+ * for creating this licence.
+ * ----------------------------------------------------------------------------
+ */
+ 
+ define FLAPS_AUTO                3000
+ define FLAPS_HALF                3001
+ define FLAPS_FULL                3002
+ 
+ define ATC                       3003
+  
+ define TDC_DEPRESS               3004
+  
+ define SPEEDBRAKE_EXTEND         3005
+ define SPEEDBRAKE_OFF            3006
+ define SPEEDBRAKE_RETRACT        3007
+ 
+ define CMS_FOR                   3008
+ define CMS_AFT                   3009
+ 
+ define GEAR_UP                   3010
+ define GEAR_DOWN                 3011
+ 
+ define HOOK_UP                   3012
+ define HOOK_DOWN                 3013
+ 
+ define DISPENSER_OFF             3014
+ define DISPENSER_ON              3015
+ define DISPENSER_BYPASS          3016
+ define MASTER_CAUTION            3017
+ 
+ define FCS_RESET                 3018
+ 
+ define APU_ON_OFF                3019
+ 
+ define ENGINE_CRANK_CYCLE_LEFT   3020
+ define ENGINE_CRANK_CYCLE_RIGHT  3021
+ 
+ define BATTERY_ON                3022
+ define BATTERY_OFF               3023
+ 
+ define OBOGS_ON                  3024
+ define OBOGS_OFF                 3025
+ 
+ define EXT_LIGHTS_ON             3026
+ define EXT_LIGHTS_OFF            3027
+ 
+ define MASTER_ARM_ON             3028
+ define MASTER_ARM_OFF            3029
+ 
+ define THROTTLE_LEFT_IDLE        3030
+ define THROTTLE_LEFT_OFF         3031
+ define THROTTLE_RIGHT_IDLE       3032
+ define THROTTLE_RIGHT_OFF        3033
+ 
+ define COMMS1                    3034
+ define COMMS2                    3035
+ define MIDS_A                    3036
+ define MIDS_B                    3037
+ 
+ define RUDDER_LEFT               3038
+ define RUDDER_RIGHT              3039
+ define WHEELBRAKES               3040
