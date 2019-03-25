@@ -34,7 +34,7 @@ __Work in Progess__
 TODOs (order reflects the priority but is not set in stone):
 - [Fix Bugs][issues_bugs]
 - Map Remaining Buttons:
-  - CMS (Stick)
+  - DMS (Stick)
   - Pinky (Throttle)
   - Boat (Throttle)
 - Add mapping description (text)
