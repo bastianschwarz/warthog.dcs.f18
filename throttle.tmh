@@ -26,7 +26,10 @@ int initThrottle() {
   setupFlaps();
   setupATC();
   setupSlew();
-  setupSpeedbreake();
+  setupCoolie();
+  setupMIC();
+  setupSpeedbrake();
+  setupBoat();
   setupChinaHat();
   
   // panel
@@ -58,21 +61,15 @@ int initLEDs() {
 /*
  * Sets up the throttle axis along with the idle-off key events and LED states. LEDs are off when both throttles are in off position
  *
- * @param int physicalAfterburnerDetend The percentage of throttle where the physical afterburner detend ist - the default warthog detent is at 80% - push trhough detent is at 75
- * @param int inGameAfterburnerDetend The percentage of throttle where the sim plane activates the afterburner. With the FA-18C module in DCS this is at about 92% with default - 85 with push trough.
  */
-int setupThrottleAxis(int physicalAfterburnerDetent = 75, int inGameAfterburnerDetent = 85) {
-  // curve
+int setupThrottleAxis() {
   MapAxis(&Throttle, THR_LEFT, DX_ZROT_AXIS);
-  SetJCurve(&Throttle, THR_LEFT, physicalAfterburnerDetent, inGameAfterburnerDetent); // set the curve to align the AB detend with the AB in game
-  MapAxis(&Throttle, THR_RIGHT, DX_Z_AXIS); 
-  SetJCurve(&Throttle, THR_RIGHT, physicalAfterburnerDetent, inGameAfterburnerDetent);
+  MapAxis(&Throttle, THR_RIGHT, DX_Z_AXIS);
   
-  // Idle states
-  MapKey(&Throttle, IDLELON, CHAIN(PULSE + THROTTLE_LEFT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
-  MapKey(&Throttle, IDLERON, CHAIN(PULSE + THROTTLE_RIGHT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
-  MapKey(&Throttle, IDLELOFF, CHAIN(PULSE + THROTTLE_LEFT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
-  MapKey(&Throttle, IDLEROFF, CHAIN(PULSE + THROTTLE_RIGHT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
+  MapKey(&Throttle, IDLELON, CHAIN(THROTTLE_LEFT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
+  MapKey(&Throttle, IDLERON, CHAIN(THROTTLE_RIGHT_OFF, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT - LED0)));
+  MapKey(&Throttle, IDLELOFF, CHAIN(THROTTLE_LEFT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
+  MapKey(&Throttle, IDLEROFF, CHAIN(THROTTLE_RIGHT_IDLE, D(), LED(&Throttle, LED_ONOFF, LED_CURRENT + LED0)));
 }
 
 /*
@@ -80,63 +77,96 @@ int setupThrottleAxis(int physicalAfterburnerDetent = 75, int inGameAfterburnerD
  * is also shared with the speedbreake
  */
 int setupFlaps() {
-  MapKey(&Throttle, FLAPU, CHAIN(PULSE + FLAPS_AUTO, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED3)));
-  MapKey(&Throttle, FLAPM, CHAIN(PULSE + FLAPS_HALF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
-  MapKey(&Throttle, FLAPD, CHAIN(PULSE + FLAPS_FULL, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+  MapKey(&Throttle, FLAPU, CHAIN(FLAPS_AUTO, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED3)));
+  MapKey(&Throttle, FLAPM, CHAIN(FLAPS_HALF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+  MapKey(&Throttle, FLAPD, CHAIN(FLAPS_FULL, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
 }
 
 /*
  * Sets up the ATC Button (the red one on the throttle) for automatic throttle controll
  */
 int setupATC() {
-  MapKey(&Throttle, LTB, PULSE + ATC);
+  MapKey(&Throttle, LTB, ATC);
 }
 
 /*
  * Sets up the slew (microstick) as the TDC with the click as depress
  *
- * @param int deadzone Set a rather large deadzone since the stick is very sensitive
- * @param int curve Trim the curve so its slower in the center
- * @param int scale Scale the curve so the max values are lower since it's almost uncontrollable in high values
  */
-int setupSlew(int deadzone = 20, int curve = 3, int scale = -3) {
+int setupSlew() {
   MapAxis(&Throttle, SCX, DX_XROT_AXIS, AXIS_NORMAL, MAP_ABSOLUTE);
-  SetSCurve(&Throttle, SCX, 0, 0, deadzone, curve, scale);
   MapAxis(&Throttle, SCY, DX_YROT_AXIS, AXIS_REVERSED, MAP_ABSOLUTE);
-  SetSCurve(&Throttle, SCY, 0, 0, deadzone, curve, scale);
   MapKey(&Throttle, SC, TDC_DEPRESS);
 }
+
+/*
+ * Sets up the coolie as rudder (since I still can't find my pedals)
+ *
+ * Left: Rudder Left
+ * Right: Rudder Right
+ */
+int setupCoolie() {
+  MapKey(&Throttle, CSL, RUDDER_LEFT);
+  MapKey(&Throttle, CSR, RUDDER_RIGHT);
+  MapKey(&Throttle, CSU, WHEELBRAKES);
+  MapKey(&Throttle, CSD, 0);
+}
+
+/*
+ * Sets up the MIC switch (4 way hat with press) as comms
+ *
+ * Up: COMMS1
+ * Down: COMMS2
+ * FWD: MIDDS1
+ * AFT: MIDDS2
+ * Press: TBD
+ */
+int setupMIC() {
+  MapKey(&Throttle, MSU, COMMS1);
+  MapKey(&Throttle, MSD, COMMS2);
+  MapKey(&Throttle, MSR, MIDS_A);
+  MapKey(&Throttle, MSL, MIDS_B);
+  MapKey(&Throttle, MSP, 0);
+}
+
 /*
  * Sets up the speedbreak and turns LED3 on when it's not in the middle position. The LED is also shared with the flaps.
  */
-int setupSpeedbreake() {
-  MapKey(&Throttle, SPDB, CHAIN(SPEEDBREAKE_EXTEND, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
-  MapKey(&Throttle, SPDM, CHAIN(PULSE + SPEEDBREAKE_OFF, LED(&Throttle, LED_ONOFF ,LED_CURRENT - LED3)));
-  MapKey(&Throttle, SPDF, CHAIN(SPEEDBREAKE_EXTRACT, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+int setupSpeedbrake() {
+  MapKey(&Throttle, SPDB, CHAIN(SPEEDBRAKE_EXTEND, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+  MapKey(&Throttle, SPDM, CHAIN(SPEEDBRAKE_OFF, LED(&Throttle, LED_ONOFF ,LED_CURRENT - LED3)));
+  MapKey(&Throttle, SPDF, CHAIN(SPEEDBRAKE_RETRACT, LED(&Throttle, LED_ONOFF, LED_CURRENT + LED3)));
+}
+
+/*
+ * Sets up the boat switch as ... not sure yet
+ */
+int setupBoat() {
+
 }
 
 /*
  * Sets up the china hat (the red 2 direction switch at the side of the throttle) for countermeasures(ALE-47)
  */
 int setupChinaHat() {
-  MapKey(&Throttle, CHF, DISPENSE_SWITCH_FORWARD_CHAFF);
-  MapKey(&Throttle, CHB, DISPENSE_SWITCH_AFT_FLARE);
+  MapKey(&Throttle, CHF, CMS_FOR);
+  MapKey(&Throttle, CHB, CMS_AFT);
 }
 
 /*
  * Sets up the EAC switch on the instrument panel as gear lever. LED2 is on when the gear is down (down or OFF position)
  */
 int setupEAC() {
-  MapKey(&Throttle, EACON, CHAIN(PULSE + GEAR_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED2)));
-  MapKey(&Throttle, EACOFF, CHAIN(PULSE + GEAR_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED2)));
+  MapKey(&Throttle, EACON, CHAIN(GEAR_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED2)));
+  MapKey(&Throttle, EACOFF, CHAIN(GEAR_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED2)));
 }
 
 /*
  * Sets up the RDR ALTIM switch on the instrument panel as hook lever. LED4 is on when the hook is down (down or DIS position)
  */
 int setupRDRALTIM() {
-  MapKey(&Throttle, RDRNRM, CHAIN(PULSE + HOOK_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED4)));
-  MapKey(&Throttle, RDRDIS, CHAIN(PULSE + HOOK_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED4)));
+  MapKey(&Throttle, RDRNRM, CHAIN(HOOK_UP, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED4)));
+  MapKey(&Throttle, RDRDIS, CHAIN(HOOK_DOWN, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED4)));
 }
 
 /*
@@ -148,10 +178,11 @@ int setupRDRALTIM() {
  * The engage-disengage button is the master caution reset
  */
 int setupAutopilot() {
+  MapKey(&Throttle, APPAT, DISPENSER_BYPASS);
+  MapKey(&Throttle, APAH, DISPENSER_ON);
+  MapKey(&Throttle, APALT, DISPENSER_OFF);
+  
   MapKey(&Throttle, APENG, MASTER_CAUTION);
-  MapKey(&Throttle, APPAT, PULSE + DISPENSER_SWITCH_BYPASS);
-  MapKey(&Throttle, APAH, PULSE + DISPENSER_SWITCH_ON);
-  MapKey(&Throttle, APALT, PULSE +DISPENSER_SWITCH_OFF);
 }
 
 /*
@@ -165,7 +196,7 @@ int setupLGWarn() {
  * Sets up the APU switch. The APU is bound to a DX button since DCS has a special action for this
  */
 int setupAPU() {
-  MapKey(&Throttle, APUON, APU);
+  MapKey(&Throttle, APUON, APU_ON_OFF);
 }
 
 /**
@@ -173,7 +204,6 @@ int setupAPU() {
  */
 int setupFrictionLever() {
   MapAxis(&Throttle, THR_FC, DX_SLIDER_AXIS);
-  SetSCurve(&Throttle, THR_FC, 0, 10, 0, 0, -2);
 }
 
 /*
@@ -181,14 +211,14 @@ int setupFrictionLever() {
  * ignition position is the engine crank.
  */
 int setupEngine() {
-  MapKey(&Throttle, EORNORM, PULSE + BATTERY_ON);
-  MapKey(&Throttle, EOLNORM, PULSE + BATTERY_ON);
+  MapKey(&Throttle, EORNORM, BATTERY_ON);
+  MapKey(&Throttle, EOLNORM, OBOGS_ON);
   
-  MapKey(&Throttle, EORMOTOR, PULSE + BATTERY_OFF);
-  MapKey(&Throttle, EOLMOTOR, PULSE + BATTERY_OFF);
+  MapKey(&Throttle, EORMOTOR, BATTERY_OFF);
+  MapKey(&Throttle, EOLMOTOR, OBOGS_OFF);
   
-  MapKey(&Throttle, EORIGN, ENGINE_CRANK_RIGHT);
-  MapKey(&Throttle, EOLIGN, ENGINE_CRANK_LEFT);
+  MapKey(&Throttle, EORIGN, ENGINE_CRANK_CYCLE_RIGHT);
+  MapKey(&Throttle, EOLIGN, ENGINE_CRANK_CYCLE_LEFT);
 }
 
 /*
@@ -197,8 +227,8 @@ int setupEngine() {
  * - Down (OVRRD): Off (LED5 Off)
  */
 int setupFuelFlowLeft() {
-  MapKey(&Throttle, EFLNORM, CHAIN(PULSE + EXTERIOR_LIGHTS_ON, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED5)));
-  MapKey(&Throttle, EFLOVER, CHAIN(PULSE + EXTERIOR_LIGHTS_OFF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED5)));
+  MapKey(&Throttle, EFLNORM, CHAIN(EXT_LIGHTS_ON, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED5)));
+  MapKey(&Throttle, EFLOVER, CHAIN(EXT_LIGHTS_OFF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED5)));
 }
 
 /*
@@ -207,6 +237,6 @@ int setupFuelFlowLeft() {
  * - Down (OVRRD): Safe (LED5 On)
  */
 int setupFuelFlowRight() {
-  MapKey(&Throttle, EFRNORM, CHAIN(PULSE + MASTER_ARM_ARM, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED1)));
-  MapKey(&Throttle, EFROVER, CHAIN(PULSE + MASTER_ARM_SAFE, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED1)));
+  MapKey(&Throttle, EFRNORM, CHAIN(MASTER_ARM_ON, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT - LED1)));
+  MapKey(&Throttle, EFROVER, CHAIN(MASTER_ARM_OFF, D(), PULSE + LED(&Throttle, LED_ONOFF, LED_CURRENT + LED1)));
 }
