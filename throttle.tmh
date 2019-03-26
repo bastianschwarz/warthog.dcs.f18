@@ -104,12 +104,14 @@ int setupSlew() {
  *
  * Left: Rudder Left
  * Right: Rudder Right
+ * Up: Wheelbrakes
+ * Down: RAID/FLIR POV Select
  */
 int setupCoolie() {
   MapKey(&Throttle, CSL, RUDDER_LEFT);
   MapKey(&Throttle, CSR, RUDDER_RIGHT);
   MapKey(&Throttle, CSU, WHEELBRAKES);
-  MapKey(&Throttle, CSD, 0);
+  MapKey(&Throttle, CSD, RAID_FLIR_POV);
 }
 
 /*

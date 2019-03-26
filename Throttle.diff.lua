@@ -238,6 +238,22 @@ local diff = {
 			},
 			["name"] = "MASTER CAUTION Reset Button",
 		},
+		["d3009pnilunilcd5vd0vpnilvunil"] = {
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN14",
+				},
+			},
+			["name"] = "Arresting Hook Handle - Down",
+		},
+		["d3009pnilunilcd5vd1vpnilvunil"] = {
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN13",
+				},
+			},
+			["name"] = "Arresting Hook Handle - Up",
+		},
 		["d3023pnilu3023cd12vd1vpnilvu0"] = {
 			["added"] = {
 				[1] = {
@@ -301,6 +317,14 @@ local diff = {
 				},
 			},
 			["name"] = "Dispense Switch - Aft(FLARE)/Center(OFF)",
+		},
+		["d3034pnilu3034cd13vd1vpnilvu0"] = {
+			["added"] = {
+				[1] = {
+					["key"] = "JOY_BTN42",
+				},
+			},
+			["name"] = "RAID/FLIR FOV Select Button",
 		},
 		["d3035pnilu3035cd13vd-1vpnilvu0"] = {
 			["added"] = {
