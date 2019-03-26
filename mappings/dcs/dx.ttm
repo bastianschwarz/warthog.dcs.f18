@@ -68,3 +68,5 @@
  define RUDDER_LEFT               3038
  define RUDDER_RIGHT              3039
  define WHEELBRAKES               3040
+ 
+ define RAID_FLIR_POV             3041
